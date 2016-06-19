@@ -1,7 +1,7 @@
 # REPTILE
 ### - Regulatory Element Prediction based on TIssue-specific Local Epigenetic marks
 
-[https://github.com/yupenghe/REPTILE]
+https://github.com/yupenghe/REPTILE
 
 REPTILE is a tool to identify the precise location of enhancers by integrating histone modification data 
 and base-resolution DNA methylation profiles.
@@ -72,7 +72,7 @@ REPTILE can be downloaded and installed using the commands below. No root access
 ```
 git clone https://github.com/yupenghe/REPTILE.git
 cd REPTILE/
-R CMD INSTALL REPTILE_1.0.tar.gz
+R CMD INSTALL REPTILE.tar.gz
 ```
 
 ## UNINSTALLATION
