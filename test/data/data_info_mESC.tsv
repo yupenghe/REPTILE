@@ -1,0 +1,3 @@
+sample	mark	bw_file
+mESC	Meth	data/bw/mESC_Meth.bw
+mESC	H3K27ac	data/bw/mESC_H3K27ac_LogRatio.bw
