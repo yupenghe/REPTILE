@@ -16,11 +16,10 @@ REPTILE requires R (>= 3.2.2) and it is available in [R website](https://www.r-p
 
 
 #### python
-The preprocessing script and enhancer calling script in REPTILE require python2 (>= 2.7.9) or
-python3 (>= 3.5.1); They also requires numpy (>= 1.10.4) and pandas (>= 0.17.1). The 
-[numpy](http://www.numpy.org/) and [pandas](http://pandas.pydata.org/) are available from their 
-websties. It is recommended to install [anaconda](https://www.continuum.io/downloads) for python2.7 and 
-the two modules will be included.
+REPTILE requires python2 (>= 2.7.9) or python3 (>= 3.5.1); It also requires numpy (>= 1.10.4) and 
+pandas (>= 0.17.1) python modules. The [numpy](http://www.numpy.org/) and [pandas](http://pandas.pydata.org/) 
+are available from their websties. It is recommended to install [anaconda](https://www.continuum.io/downloads) 
+for python2.7 and the two modules will be included.
 
 
 #### bedtools
@@ -45,19 +44,19 @@ chmod u+x /path/to/bedtools/bin/bedtools
 
 
 #### bigWigAverageOverBed
-`bigWigAverageOverBed` executable can be downloaded from 
+1 - `bigWigAverageOverBed` executable can be downloaded from 
 [UCSC genome browser utilities]( http://hgdownload.soe.ucsc.edu/admin/exe/).
 Search for "bigWigAverageOverBed" under the folder of your operation system.
 For example, here are the binary releases for
 [linux](http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/bigWigAverageOverBed) and
 [macOS](http://hgdownload.soe.ucsc.edu/admin/exe/macOSX.x86_64/bigWigAverageOverBed). 
 
-After `bigWigAverageOverBed` is downloaded, please run the below command to give it execute permission. 
+2 - After `bigWigAverageOverBed` is downloaded, please run the below command to give it execute permission. 
 ```
 chmod u+x bigWigAverageOverBed
 ``` 
 
-Last, please include the path to the `bigWigAverageOverBed` executable in `PATH` environmental variable.
+3 - Last, please include the path to the `bigWigAverageOverBed` executable in `PATH` environmental variable.
 If the path of executable is `/path/to/bigWigAverageOverBed/`, you can add the below command to `~/.bashrc`
 file (your shell config file) to accomplish this requirement.
 ```
