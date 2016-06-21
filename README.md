@@ -16,8 +16,8 @@ REPTILE requires R (>= 3.2.2) and it is available in [R website](https://www.r-p
 
 
 #### python
-REPTILE requires python2 (>= 2.7.9) or python3 (>= 3.5.1); It also requires numpy (>= 1.10.4) and 
-pandas (>= 0.17.1) python modules. The [numpy](http://www.numpy.org/) and [pandas](http://pandas.pydata.org/) 
+REPTILE requires python2 (>= 2.7.9) or python3 (>= 3.5.1). It also requires numpy (>= 1.10.4) and 
+pandas (>= 0.17.1) modules. The [numpy](http://www.numpy.org/) and [pandas](http://pandas.pydata.org/) 
 are available from their websties. It is recommended to install [anaconda](https://www.continuum.io/downloads) 
 for python2.7 and the two modules will be included.
 
