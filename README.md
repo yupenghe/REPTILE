@@ -142,10 +142,3 @@ Preprocessing `./REPTILE_preprocess.py -h` to get help information.
    	-p 0.5
 ```
 `./REPTILE_call_enhancers.py -h` to get help information.
-
-## Case study
-Requirements to be coming.
-```
-cd example/
-sh run_example.sh > log 2> err
-```
