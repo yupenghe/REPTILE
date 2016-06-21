@@ -76,7 +76,7 @@ The R library required for REPTILE can be installed through CRAN by command belo
 R
 > install.packages("REPTILE")
 ```
-The documentation of the R package is available in
+More information about this R package is available in
 [REPTILE CRAN webpage](https://cran.rstudio.com/web/packages/REPTILE/).
 
 
