@@ -89,7 +89,7 @@ R CMD UNINSTALL REPTILE
 ```
 
 ## Test REPTILE
-Below command can be used To test whether REPTILE is correctly installed and all requirements
+Below command can be used to test whether REPTILE is correctly installed and all requirements
 are met. 
 ```
 cd REPTILE/test
