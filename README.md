@@ -24,12 +24,12 @@ the two modules will be included.
 
 
 #### bedtools
-bedtools is available in [bedtools website](http://bedtools.readthedocs.io/en/latest/).
+1 - bedtools is available in [bedtools website](http://bedtools.readthedocs.io/en/latest/).
 It is recommended to download and install the latest [stable release](https://github.com/arq5x/bedtools2/releases),
 according to the [installation instruction](http://bedtools.readthedocs.io/en/latest/content/installation.html). 
 Older versions may work but they have not been tested.
 
-  After installation, please include the path to the `bedtools` executable in `PATH` environmental variable.
+2 - After installation, please include the path to the `bedtools` executable in `PATH` environmental variable.
 The executable is usually in the `bin/` folder within the `bedtools/` folder. Suppose that the path of bedtools
 executable is `/path/to/bedtools/bin/`, you can add the below command to your `~/.bashrc` file (your shell config file)
 to accomplish this requirement.
@@ -37,7 +37,7 @@ to accomplish this requirement.
 export PATH=/path/to/bedtools/bin/:$PATH
 ```
 
-Please check whether the `bedtools` executable has excecute permission. If not, you will error message
+3 - Please check whether the `bedtools` executable has excecute permission. If not, you will error message
 "Permission denied". The command below can solve this issue.
 ```
 chmod u+x /path/to/bedtools/bin/bedtools
@@ -66,12 +66,12 @@ export PATH=/path/to/bigWigAverageOverBed/:$PATH
 
 
 ## INSTALLATION
-REPTILE can be downloaded (cloned) using git command.
+1 - REPTILE can be downloaded (cloned) using git command.
 ```
 git clone https://github.com/yupenghe/REPTILE.git
 ```
 
-The R library required for REPTILE can be installed through CRAN by command below.
+2 - The R library required for REPTILE can be installed through CRAN by command below.
 ```R
 R
 > install.packages("REPTILE")
@@ -79,6 +79,13 @@ R
 More information about this R package is available in
 [REPTILE CRAN webpage](https://cran.rstudio.com/web/packages/REPTILE/).
 
+3 - To make REPTILE easier to use, it is recommended to add the path of executable scripts (in the `bin/` folder) 
+from REPTILE in `PATH` environmental variable Otherwise, the path of the scripts has to be typed for each use.
+Suppose the path is `/path/to/REPTILE/bin/`, please add the below command to `~/.bashrc` file
+(your shell config file).
+```
+export PATH=/path/to/REPTILE/bin/:$PATH
+```
 
 
 ## UNINSTALLATION
@@ -99,9 +106,9 @@ cd REPTILE/test
 
 ## Use REPTILE
 #### Preprocessing
-Preprocessing `./REPTILE_preprocess.py -h` to get help information.
+Preprocessing `REPTILE_preprocess.py -h` to get help information.
 ```
-./REPTILE_preprocess.py \
+REPTILE_preprocess.py \
 		data_info_file \
 		training_region \
 		-d dmr_file \
@@ -111,7 +118,7 @@ Preprocessing `./REPTILE_preprocess.py -h` to get help information.
 
 #### Training an enhancer model
 ```
-./REPTILE_train.R \
+REPTILE_train.R \
 	-i data_info_file \
 	-a tmp/training_region.region_with_epimark.tsv \
 	-d tmp/training_region.DMR_with_epimark.tsv \
@@ -119,11 +126,11 @@ Preprocessing `./REPTILE_preprocess.py -h` to get help information.
 	-s mESC \
 	-o tmp/REPTILE_model
 ```
-`./REPTILE_train.R -h` to get help information.
+`REPTILE_train.R -h` to get help information.
 
 #### Generate enhancer scores
 ```
-./REPTILE_compute_score.R \
+REPTILE_compute_score.R \
 	-i data_info_file \
 	-m tmp/REPTILE_model.reptile \
 	-a tmp/test_region.region_with_epimark.tsv \
@@ -135,7 +142,7 @@ Preprocessing `./REPTILE_preprocess.py -h` to get help information.
 
 #### Get genome-wide enhancer predictions
 ```
-./REPTILE_call_enhancers.py \		
+REPTILE_call_enhancers.py \		
    	tmp/E11_5_FB_pred.R.bed \
 	-d tmp/E11_5_FB_pred.DMR.bed \
    	-o results/enhancer_E11_5_FB.bed \
