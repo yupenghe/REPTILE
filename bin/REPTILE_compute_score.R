@@ -195,11 +195,15 @@ if(num_splits == 1){
     remove(expected_files,if_exist)
 
     ## Multiprocessing
-    suppressPackageStartupMessages(library("doMC",,quietly=T,verbose=F))   
+    suppressPackageStartupMessages(library("doParallel",,quietly=T,verbose=F))   
     suppressPackageStartupMessages(library("foreach",quietly=T,verbose=F))
-    
-    registerDoMC(num_procs)
+
+    cl <- makeCluster(num_procs)
+    registerDoParallel(cl)
     foreach(s = 1:num_splits) %dopar% {
+        ## Loading REPTILE library
+        suppressPackageStartupMessages(library("REPTILE",verbose=FALSE))
+        
         ## Read data
         epimark_region <- read_epigenomic_data(data_info,
                                                paste0(query_region_epimark_file,".",s-1,".tsv"),
@@ -290,7 +294,8 @@ if(num_splits == 1){
             }
         }
     }
-
+    stopCluster(cl)
+    
     ## Combine output files
     ## DMR
     if(!is.null(DMR_epimark_file)){

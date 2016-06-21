@@ -12,28 +12,8 @@ Please contact [Yupeng He](mailto:yupeng.he.bioinfo@gmail.com) for for feedbacks
 ## Requirement
 
 #### R
-REPTILE requires R (>= 3.2.2) and several packages that REPTILE depdends on.
-R is available in [R website](https://www.r-project.org/). The depedent R packages
-and their versions are 
+REPTILE requires R (>= 3.2.2) and it is available in [R website](https://www.r-project.org/).
 
-* optparse (>= 1.3.2)
-
-* randomForest (>= 4.6-12)
-
-* flux(>= 0.3-0)
-
-* foreach (>= 1.4.3)
-
-* doMC (>= 1.3.4) 
-
-They can be installed from CRAN using the below R code.
-```R
-install.packages("optparse")
-install.packages("randomForest")
-install.packages("flux")
-install.packages("foreach")
-install.packages("doMC")
-```
 
 #### python
 The preprocessing script and enhancer calling script in REPTILE require python2 (>= 2.7.9) or
@@ -45,35 +25,61 @@ the two modules will be included.
 
 #### bedtools
 bedtools is available in [bedtools website](http://bedtools.readthedocs.io/en/latest/).
-It is recommended to use versions newer than v2.25.0. Older versions may work but they have not been tested.
+It is recommended to download and install the latest [stable release](https://github.com/arq5x/bedtools2/releases),
+according to the [installation instruction](http://bedtools.readthedocs.io/en/latest/content/installation.html). 
+Older versions may work but they have not been tested.
 
-  Please include the path to the bedtools execuitable in `PATH` environmental variable. If the bedtools
-execuitable is at `/path/to/bedtools/`, you can add the below command to your `~/.bashrc` file (your shell config file).
+  After installation, please include the path to the `bedtools` executable in `PATH` environmental variable.
+The executable is usually in the `bin/` folder within the `bedtools/` folder. Suppose that the path of bedtools
+executable is `/path/to/bedtools/bin/`, you can add the below command to your `~/.bashrc` file (your shell config file)
+to accomplish this requirement.
 ```
-export PATH=/path/to/bedtools/:$PATH
+export PATH=/path/to/bedtools/bin/:$PATH
+```
+
+Please check whether the `bedtools` executable has excecute permission. If not, you will error message
+"Permission denied". The command below can solve this issue.
+```
+chmod u+x /path/to/bedtools/bin/bedtools
 ```
 
 
 #### bigWigAverageOverBed
-`bigWigAverageOverBed` execuitable can be downloaded from [UCSC genome browser utilities]( http://hgdownload.soe.ucsc.edu/admin/exe/), including binaries for
+`bigWigAverageOverBed` executable can be downloaded from 
+[UCSC genome browser utilities]( http://hgdownload.soe.ucsc.edu/admin/exe/).
+Search for "bigWigAverageOverBed" under the folder of your operation system.
+For example, here are the binary releases for
 [linux](http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/bigWigAverageOverBed) and
 [macOS](http://hgdownload.soe.ucsc.edu/admin/exe/macOSX.x86_64/bigWigAverageOverBed). 
 
-  Please include the path to the bigWigAverageOverBed execuitable in `PATH` environmental variable. If the 
-bigWigAverageOverBed execuitable is at `/path/to/bedtools/`, you can add the below command to `~/.bashrc`
-file (your shell config file).
+After `bigWigAverageOverBed` is downloaded, please run the below command to give it execute permission. 
+```
+chmod u+x bigWigAverageOverBed
+``` 
+
+Last, please include the path to the `bigWigAverageOverBed` executable in `PATH` environmental variable.
+If the path of executable is `/path/to/bigWigAverageOverBed/`, you can add the below command to `~/.bashrc`
+file (your shell config file) to accomplish this requirement.
 ```
 export PATH=/path/to/bigWigAverageOverBed/:$PATH
 ```
 
 
 ## INSTALLATION
-REPTILE can be downloaded and installed using the commands below. No root access is needed.
+REPTILE can be downloaded (cloned) using git command.
 ```
 git clone https://github.com/yupenghe/REPTILE.git
-cd REPTILE/
-R CMD INSTALL REPTILE.tar.gz
 ```
+
+The R library required for REPTILE can be installed through CRAN by command below.
+```R
+R
+> install.packages("REPTILE")
+```
+The documentation of the R package is available in
+[REPTILE CRAN webpage](https://cran.rstudio.com/web/packages/REPTILE/).
+
+
 
 ## UNINSTALLATION
 To uninstall REPTILE, please run the below command to remove the installed R package. You
@@ -86,7 +92,7 @@ R CMD UNINSTALL REPTILE
 Below command can be used To test whether REPTILE is correctly installed and all requirements
 are met. 
 ```
-cd test
+cd REPTILE/test
 ./run_test.py
 ```
 
@@ -136,3 +142,10 @@ Preprocessing `./REPTILE_preprocess.py -h` to get help information.
    	-p 0.5
 ```
 `./REPTILE_call_enhancers.py -h` to get help information.
+
+## Case study
+Requirements to be coming.
+```
+cd example/
+sh run_example.sh > log 2> err
+```
