@@ -32,13 +32,13 @@ Older versions may work but they have not been tested.
 The executable is usually in the `bin/` folder within the `bedtools/` folder. Suppose that the path of bedtools
 executable is `/path/to/bedtools/bin/`, you can add the below command to your `~/.bashrc` file (your shell config file)
 to accomplish this requirement.
-```
+```bash
 export PATH=/path/to/bedtools/bin/:$PATH
 ```
 
 3 - Please check whether the `bedtools` executable has excecute permission. If not, you will error message
 "Permission denied". The command below can solve this issue.
-```
+```bash
 chmod u+x /path/to/bedtools/bin/bedtools
 ```
 
@@ -52,14 +52,14 @@ For example, here are the binary releases for
 [macOS](http://hgdownload.soe.ucsc.edu/admin/exe/macOSX.x86_64/bigWigAverageOverBed). 
 
 2 - After `bigWigAverageOverBed` is downloaded, please run the below command to give it execute permission. 
-```
+```bash
 chmod u+x bigWigAverageOverBed
 ``` 
 
 3 - Last, please include the path to the `bigWigAverageOverBed` executable in `PATH` environmental variable.
 If the path of executable is `/path/to/bigWigAverageOverBed/`, you can add the below command to `~/.bashrc`
 file (your shell config file) to accomplish this requirement.
-```
+```bash
 export PATH=/path/to/bigWigAverageOverBed/:$PATH
 ```
 
@@ -82,7 +82,7 @@ More information about this R package is available in
 from REPTILE in `PATH` environmental variable Otherwise, the path of the scripts has to be typed for each use.
 Suppose the path is `/path/to/REPTILE/bin/`, please add the below command to `~/.bashrc` file
 (your shell config file).
-```
+```bash
 export PATH=/path/to/REPTILE/bin/:$PATH
 ```
 
@@ -90,14 +90,14 @@ export PATH=/path/to/REPTILE/bin/:$PATH
 ## UNINSTALLATION
 To uninstall REPTILE, please run the below command to remove the installed R package. You
 may want to remove the REPTILE folder and related files to fully clean up.
-```
+```bash
 R CMD UNINSTALL REPTILE
 ```
 
 ## Test REPTILE
 Below command can be used to test whether REPTILE is correctly installed and all requirements
 are met. 
-```
+```bash
 cd REPTILE/test
 ./run_test.py
 ```
@@ -106,7 +106,7 @@ cd REPTILE/test
 ## Use REPTILE
 #### Preprocessing
 Preprocessing `REPTILE_preprocess.py -h` to get help information.
-```
+```bash
 REPTILE_preprocess.py \
 		data_info_file \
 		training_region \
@@ -116,7 +116,7 @@ REPTILE_preprocess.py \
 ```
 
 #### Training an enhancer model
-```
+```bash
 REPTILE_train.R \
 	-i data_info_file \
 	-a tmp/training_region.region_with_epimark.tsv \
@@ -128,7 +128,7 @@ REPTILE_train.R \
 `REPTILE_train.R -h` to get help information.
 
 #### Generate enhancer scores
-```
+```bash
 REPTILE_compute_score.R \
 	-i data_info_file \
 	-m tmp/REPTILE_model.reptile \
@@ -140,7 +140,7 @@ REPTILE_compute_score.R \
 `./REPTILE_compute_score.R -h` to get help information.
 
 #### Get genome-wide enhancer predictions
-```
+```bash
 REPTILE_call_enhancers.py \		
    	tmp/E11_5_FB_pred.R.bed \
 	-d tmp/E11_5_FB_pred.DMR.bed \
