@@ -8,7 +8,7 @@ and base-resolution DNA methylation profiles.
 
 Please contact [Yupeng He](mailto:yupeng.he.bioinfo@gmail.com) for for feedbacks, questions or bugs.
 
-# Table of Contents
+## Table of Contents
 * [Requirement](#requirement)
 * [Installation](#installation)
 * [Uninstallation](#uninstallation)
