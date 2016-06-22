@@ -9,11 +9,11 @@ and base-resolution DNA methylation profiles.
 Please contact [Yupeng He](mailto:yupeng.he.bioinfo@gmail.com) for for feedbacks, questions or bugs.
 
 # Table of Contents
-* [Requirement](##requirement)
-* [Installation](##installation)
-* [Uninstallation](##uninstallation)
-* [Test REPTILE](##test-reptile)
-* [Use REPTILE](##use-reptile)
+* [Requirement](#requirement)
+* [Installation](#installation)
+* [Uninstallation](#uninstallation)
+* [Test REPTILE](#test-reptile)
+* [Use REPTILE](#use-reptile)
 
 
 ## Requirement
