@@ -13,7 +13,9 @@ Please contact [Yupeng He](mailto:yupeng.he.bioinfo@gmail.com) for for feedbacks
 * [Installation](#installation)
 * [Uninstallation](#uninstallation)
 * [Test REPTILE](#test-reptile)
+* [REPTILE Overview](#reptile-overview)
 * [Use REPTILE](#use-reptile)
+* [Example](#example)
 
 
 ## Requirement
@@ -39,13 +41,13 @@ Older versions may work but they have not been tested.
 The executable is usually in the `bin/` folder within the `bedtools/` folder. Suppose that the path of bedtools
 executable is `/path/to/bedtools/bin/`, you can add the below command to your `~/.bashrc` file (your shell config file)
 to accomplish this requirement.
-```bash
+```
 export PATH=/path/to/bedtools/bin/:$PATH
 ```
 
 3 - Please check whether the `bedtools` executable has excecute permission. If not, you will error message
 "Permission denied". The command below can solve this issue.
-```bash
+```
 chmod u+x /path/to/bedtools/bin/bedtools
 ```
 
@@ -59,14 +61,14 @@ For example, here are the binary releases for
 [macOS](http://hgdownload.soe.ucsc.edu/admin/exe/macOSX.x86_64/bigWigAverageOverBed). 
 
 2 - After `bigWigAverageOverBed` is downloaded, please run the below command to give it execute permission. 
-```bash
+```
 chmod u+x bigWigAverageOverBed
 ``` 
 
 3 - Last, please include the path to the `bigWigAverageOverBed` executable in `PATH` environmental variable.
 If the path of executable is `/path/to/bigWigAverageOverBed/`, you can add the below command to `~/.bashrc`
 file (your shell config file) to accomplish this requirement.
-```bash
+```
 export PATH=/path/to/bigWigAverageOverBed/:$PATH
 ```
 
@@ -89,7 +91,7 @@ More information about this R package is available in
 from REPTILE in `PATH` environmental variable Otherwise, the path of the scripts has to be typed for each use.
 Suppose the path is `/path/to/REPTILE/bin/`, please add the below command to `~/.bashrc` file
 (your shell config file).
-```bash
+```
 export PATH=/path/to/REPTILE/bin/:$PATH
 ```
 
@@ -97,61 +99,95 @@ export PATH=/path/to/REPTILE/bin/:$PATH
 ## UNINSTALLATION
 To uninstall REPTILE, please run the below command to remove the installed R package. You
 may want to remove the REPTILE folder and related files to fully clean up.
-```bash
+```
 R CMD UNINSTALL REPTILE
 ```
 
 ## Test REPTILE
 Below command can be used to test whether REPTILE is correctly installed and all requirements
 are met. 
-```bash
+```
 cd REPTILE/test
 ./run_test.py
 ```
 
 
+## REPTILE overview
+#### Key concepts
+There two key concepts in REPTILE, "query region" and "DMR":
+
+* query region - (training) known enhancers and regions with no observable enhancer activity. (prediction) sliding genomic windowns used to call the enhancers that show little methylation variation (and thus contain no DMR).
+* DMR - differentially methylated regions, used as high-resolution enhancer candidates
+
+     ![](https://raw.githubusercontent.com/yupenghe/misc/master/REPTILE/DMR_query_region.png "DMR and query region")
+
+The currently known enhancers (~2kb) are generally much larger than the binding motifs of TFs (~10-20bp) and are likely to include sequences that contribute little to their enhancer activity. We used the term “query region” to describe such large regions where a small fraction of the region is regulatory (if any). Query region also refers to negative regions (that showed no observable enhancer activity) and the genomic windows used by enhancer prediction methods. Since large portion of an active query region is likely to have little contribution to its enhancer activity, the epigenomic signature of the whole active query region may not be a good approximation to the epigenomic state of the bona fide regulatory sequences within it. To address this issue, we used differentially methylated regions (DMRs, ~500bp) to pinpoint the possible regulatory sub-regions within query regions. DMRs serve as high-resolution enhancer candidates and may capture the local epigenomic patterns that would otherwise be averaged/washed out in analysis focusing on the query regions.
+
+### REPTILE workflow
+REPTILE is a tool to identify enhancers by epigenomic data (DNA methylation and histone modifications).
+
+![](https://raw.githubusercontent.com/yupenghe/misc/master/REPTILE/workflow.png "REPTILE workflow")
+    
+### File format
+The formats of files in REPTILE workflow are:
+
+![](https://raw.githubusercontent.com/yupenghe/misc/master/REPTILE/file_format.png "File format")
+
+
 ## Use REPTILE
+The detailed usage information of each executable script can be found in the 
+[USAGE.md](https://github.com/yupenghe/REPTILE/blob/master/USAGE.md) document.
+
 #### Preprocessing
-Preprocessing `REPTILE_preprocess.py -h` to get help information.
-```bash
+The goal of preprocessing step is to 
+`REPTILE_preprocess.py`
+```
 REPTILE_preprocess.py \
 		data_info_file \
-		training_region \
+		query_region_file \
 		-d dmr_file \
-		tmp/training_region \
-		-p 8
+		output_prefix
+		-p num_processors
 ```
+Preprocessing `REPTILE_preprocess.py -h` to get help information.
 
 #### Training an enhancer model
-```bash
+```
 REPTILE_train.R \
 	-i data_info_file \
-	-a tmp/training_region.region_with_epimark.tsv \
-	-d tmp/training_region.DMR_with_epimark.tsv \
-	-l training_labels.tsv \
-	-s mESC \
-	-o tmp/REPTILE_model
+	-a query_region_epimark_file \
+	-d dmr_epimark_file
+	-l query_region_label_file \
+	-s training_sample_name \
+	-o output_prefix
 ```
 `REPTILE_train.R -h` to get help information.
 
 #### Generate enhancer scores
-```bash
+```
 REPTILE_compute_score.R \
 	-i data_info_file \
-	-m tmp/REPTILE_model.reptile \
-	-a tmp/test_region.region_with_epimark.tsv \
-	-d tmp/test_region.DMR_with_epimark.tsv \
-	-s E11_5_FB \
-	-o results/E11_5_FB_pred
+	-m enhancer_model \
+	-a query_region_epimark_file \
+	-d dmr_epimark_file \
+	-s prediction_sample_name \
+	-o output_prefix
 ```
 `./REPTILE_compute_score.R -h` to get help information.
 
 #### Get genome-wide enhancer predictions
-```bash
-REPTILE_call_enhancers.py \		
-   	tmp/E11_5_FB_pred.R.bed \
-	-d tmp/E11_5_FB_pred.DMR.bed \
-   	-o results/enhancer_E11_5_FB.bed \
-   	-p 0.5
+```
+REPTILE_call_enhancers.py \
+	query_region_file_with_score \
+	-d dmr_file_with_score \
+   	-o output_file_name \
+   	-p score_cutoff
 ```
 `./REPTILE_call_enhancers.py -h` to get help information.
+
+## Example
+Coming...
+```
+cd example/
+sh run_example.sh > log 2> err
+```
