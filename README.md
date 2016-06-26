@@ -147,7 +147,7 @@ executable script can be found in the [USAGE.md](https://github.com/yupenghe/REP
 
 The whole RPETILE pipeline can be divided in the several steps. First, input files (in commonly used file formats
 of genomic data) are preprocessed to generate the inputs for following training and prediction. Next, in training
-step, REPTILE learn an enhancer model. The model will then be used to calculate enhancer scores for each query region
+step, REPTILE learns an enhancer model. The model will then be used to calculate enhancer scores for each query region
 and DMR in the prediction step. Lastly, enhancer calls will be generated based on these scores. 
 
 #### Preprocessing
