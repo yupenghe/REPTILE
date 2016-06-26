@@ -161,9 +161,9 @@ REPTILE_preprocess.py \
 		output_prefix \
 		-p num_processors
 ```
-Note that `-g` option should be used to generate genome-wide predictions. This option
-should not be enabled when it is used to prepare inputs for training or calculation of
-enhancer scores for given regions (`-w` option in `REPTILE_compute_score.R`).
+Note that for generating genome-wide predictions, `-g` option should be used. This option
+should not be enabled in the preparation of inputs for training or the calculation of
+enhancer scores for given regions (i.e. `REPTILE_compute_score.R` with `-w` option).
 `REPTILE_preprocess.py -h` to get help information.
 
 #### Training an enhancer model
