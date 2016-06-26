@@ -114,6 +114,7 @@ cd REPTILE/test
 
 ## REPTILE overview
 #### Key concepts
+REPTILE is a tool to identify enhancers by epigenomic data (DNA methylation and histone modifications).
 There two key concepts in REPTILE, "query region" and "DMR":
 
 * query region - (training) known enhancers and regions with no observable enhancer activity. (prediction) sliding genomic windowns used to call the enhancers that show little methylation variation (and thus contain no DMR).
@@ -124,39 +125,57 @@ There two key concepts in REPTILE, "query region" and "DMR":
 The currently known enhancers (~2kb) are generally much larger than the binding motifs of TFs (~10-20bp) and are likely to include sequences that contribute little to their enhancer activity. We used the term “query region” to describe such large regions where a small fraction of the region is regulatory (if any). Query region also refers to negative regions (that showed no observable enhancer activity) and the genomic windows used by enhancer prediction methods. Since large portion of an active query region is likely to have little contribution to its enhancer activity, the epigenomic signature of the whole active query region may not be a good approximation to the epigenomic state of the bona fide regulatory sequences within it. To address this issue, we used differentially methylated regions (DMRs, ~500bp) to pinpoint the possible regulatory sub-regions within query regions. DMRs serve as high-resolution enhancer candidates and may capture the local epigenomic patterns that would otherwise be averaged/washed out in analysis focusing on the query regions.
 
 ### REPTILE workflow
-REPTILE is a tool to identify enhancers by epigenomic data (DNA methylation and histone modifications).
+The workflow of REPTILE pipeline:
 
 ![](https://raw.githubusercontent.com/yupenghe/misc/master/REPTILE/workflow.png "REPTILE workflow")
-    
+	
 ### File format
 The formats of files in REPTILE workflow are:
 
 ![](https://raw.githubusercontent.com/yupenghe/misc/master/REPTILE/file_format.png "File format")
 
-
 ## Use REPTILE
-The detailed usage information of each executable script can be found in the 
-[USAGE.md](https://github.com/yupenghe/REPTILE/blob/master/USAGE.md) document.
+As shown in the [REPTILE workflow](#reptile-workflow), REPTILE pipeline can be used to 1) learn
+enhancer models from the epigenomic signature of known enhancers and negative sequences and 2) 
+then generate enhancer prediction based on the model. The pipeline is composed by five executable
+scripts (in `bin/`). `REPTILE_train.R` and `REPTILE_compute_score.R` are the key scripts of doing training and 
+generate prediction, respectively. The inputs for these scripts can be readily generated using 
+`REPTILE_preprocess.py`. `REPTILE_call_enhancer.py` is used to generate enhancer calls based on the
+results (enhancer scores) from `REPTILE_compute_score.R`. The enhancer predictions can be evaluated 
+using the last script, `REPTILE_evaluate_prediction.R`. The detailed usage information of each
+executable script can be found in the [USAGE.md](https://github.com/yupenghe/REPTILE/blob/master/USAGE.md) document.
+
+The whole RPETILE pipeline can be divided in the several steps. First, input files (in commonly used genomic data formats)
+are preprocessed to generate the inputs for following training and prediction. Next, in training step, REPTILE learn
+a enhancer model. The model will then be used to calculate enhancer scores for each query region and DMR in the 
+prediction step. Lastly, enhancer calls will be generated based on these scores. 
 
 #### Preprocessing
-The goal of preprocessing step is to 
-`REPTILE_preprocess.py`
+The goal of preprocessing step is to generate the files of epigenomic signatures of DMRs
+and query regions. These files are inputs for follow-up training and prediction steps.
 ```
 REPTILE_preprocess.py \
 		data_info_file \
 		query_region_file \
 		-d dmr_file \
-		output_prefix
+		output_prefix \
 		-p num_processors
 ```
-Preprocessing `REPTILE_preprocess.py -h` to get help information.
+Note that `-g` option should be used to generate genome-wide predictions. This option
+should not be enabled when it is used to prepare inputs for training or calculation of
+enhancer scores for given regions (`-w` option in `REPTILE_compute_score.R`).
+`REPTILE_preprocess.py -h` to get help information.
 
 #### Training an enhancer model
+In training step, an enhancer model is learned based on the epigenomic signatures of 
+known enhancers and negative sequences (`query_region_epimark_file` and `dmr_epimark_file`)
+generated in preprocessing step. The file `query_region_label_file` specifies the labels of 
+query regions: which regions are enhancers and which region are negative sequencers. 
 ```
 REPTILE_train.R \
 	-i data_info_file \
 	-a query_region_epimark_file \
-	-d dmr_epimark_file
+	-d dmr_epimark_file \
 	-l query_region_label_file \
 	-s training_sample_name \
 	-o output_prefix
@@ -164,6 +183,7 @@ REPTILE_train.R \
 `REPTILE_train.R -h` to get help information.
 
 #### Generate enhancer scores
+Enhancer (confidence) scores are calculated for DMRs and query regions.
 ```
 REPTILE_compute_score.R \
 	-i data_info_file \
@@ -173,9 +193,14 @@ REPTILE_compute_score.R \
 	-s prediction_sample_name \
 	-o output_prefix
 ```
-`./REPTILE_compute_score.R -h` to get help information.
+For generating enhancer scores of given regions, option `-w` should be used and in
+preprocessing the inputs, `-g` should NOT be used (in running `REPTILE_preprocess.py`).
+If `-w` is used, the combined score will also be calculated. The combined score for each 
+query region is the maximum of scores of the query region and DMRs overlapping with it.
+`REPTILE_compute_score.R -h` to get help information.
 
-#### Get genome-wide enhancer predictions
+#### Get enhancer calls
+Based on the enhancer scores of DMRs and query regions, putative enhancers can be generated.
 ```
 REPTILE_call_enhancers.py \
 	query_region_file_with_score \
@@ -183,10 +208,24 @@ REPTILE_call_enhancers.py \
    	-o output_file_name \
    	-p score_cutoff
 ```
-`./REPTILE_call_enhancers.py -h` to get help information.
+For genome-wide prediction, it is recommend to use sliding genomic windows as query regions.
+`REPTILE_call_enhancers.py -h` to get help information.
+
+
+#### Evaluating enhancer prediction results
+The area under the receiver operating characteristic curve (AUROC), area under the precision-recall
+curve (AUPR) and other metrics will be calculated to evaluation the prediction accuracy.
+```
+REPTILE_evaluate_prediction.R 
+	-p query_region_file_with_combined_score \
+	-l query_region_label_file \
+	-s target_sample
+```
+`target_sample` is the sample in which enhancer scores are calculated.
+`REPTILE_evaluate_prediction.R -h` to get help information.
 
 ## Example
-Coming...
+Requirements to be coming.
 ```
 cd example/
 sh run_example.sh > log 2> err
