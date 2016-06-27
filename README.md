@@ -41,13 +41,13 @@ Older versions may work but they have not been tested.
 The executable is usually in the `bin/` folder within the `bedtools/` folder. Suppose that the path of bedtools
 executable is `/path/to/bedtools/bin/`, you can add the below command to your `~/.bashrc` file (your shell config file)
 to accomplish this requirement.
-```
+```bash
 export PATH=/path/to/bedtools/bin/:$PATH
 ```
 
 3 - Please check whether the `bedtools` executable has excecute permission. If not, you will error message
 "Permission denied". The command below can solve this issue.
-```
+```bash
 chmod u+x /path/to/bedtools/bin/bedtools
 ```
 
@@ -61,21 +61,21 @@ For example, here are the binary releases for
 [macOS](http://hgdownload.soe.ucsc.edu/admin/exe/macOSX.x86_64/bigWigAverageOverBed). 
 
 2 - After `bigWigAverageOverBed` is downloaded, please run the below command to give it execute permission. 
-```
+```bash
 chmod u+x bigWigAverageOverBed
 ``` 
 
 3 - Last, please include the path to the `bigWigAverageOverBed` executable in `PATH` environmental variable.
 If the path of executable is `/path/to/bigWigAverageOverBed/`, you can add the below command to `~/.bashrc`
 file (your shell config file) to accomplish this requirement.
-```
+```bash
 export PATH=/path/to/bigWigAverageOverBed/:$PATH
 ```
 
 
 ## INSTALLATION
 1 - REPTILE can be downloaded (cloned) using git command.
-```
+```bash
 git clone https://github.com/yupenghe/REPTILE.git
 ```
 
@@ -91,7 +91,7 @@ More information about this R package is available in
 from REPTILE in `PATH` environmental variable Otherwise, the path of the scripts has to be typed for each use.
 Suppose the path is `/path/to/REPTILE/bin/`, please add the below command to `~/.bashrc` file
 (your shell config file).
-```
+```bash
 export PATH=/path/to/REPTILE/bin/:$PATH
 ```
 
@@ -99,14 +99,14 @@ export PATH=/path/to/REPTILE/bin/:$PATH
 ## UNINSTALLATION
 To uninstall REPTILE, please run the below command to remove the installed R package. You
 may want to remove the REPTILE folder and related files to fully clean up.
-```
+```bash
 R CMD UNINSTALL REPTILE
 ```
 
 ## Test REPTILE
 Below command can be used to test whether REPTILE is correctly installed and all requirements
 are met. 
-```
+```bash
 cd REPTILE/test
 ./run_test.py
 ```
@@ -153,7 +153,7 @@ and DMR in the prediction step. Lastly, enhancer calls will be generated based o
 #### Preprocessing
 The goal of preprocessing step is to generate the files of epigenomic signatures of DMRs
 and query regions. These files are inputs for follow-up training and prediction steps.
-```
+```bash
 REPTILE_preprocess.py \
 		data_info_file \
 		query_region_file \
@@ -171,7 +171,7 @@ In training step, an enhancer model is learned based on the epigenomic signature
 known enhancers and negative sequences (`query_region_epimark_file` and `dmr_epimark_file`)
 generated in preprocessing step. The file `query_region_label_file` specifies the labels of 
 query regions: which regions are enhancers and which region are negative sequencers. 
-```
+```bash
 REPTILE_train.R \
 	-i data_info_file \
 	-a query_region_epimark_file \
@@ -184,7 +184,7 @@ REPTILE_train.R \
 
 #### Generate enhancer scores
 Enhancer (confidence) scores are calculated for DMRs and query regions.
-```
+```bash
 REPTILE_compute_score.R \
 	-i data_info_file \
 	-m enhancer_model \
@@ -201,7 +201,7 @@ query region is the maximum of scores of the query region and DMRs overlapping w
 
 #### Get enhancer calls
 Based on the enhancer scores of DMRs and query regions, putative enhancers can be generated.
-```
+```bash
 REPTILE_call_enhancers.py \
 	query_region_file_with_score \
 	-d dmr_file_with_score \
@@ -215,7 +215,7 @@ For genome-wide prediction, it is recommend to use sliding genomic windows as qu
 #### Evaluating enhancer prediction results
 The area under the receiver operating characteristic curve (AUROC), area under the precision-recall
 curve (AUPR) and other metrics will be calculated for users to evaluate the prediction accuracy.
-```
+```bash
 REPTILE_evaluate_prediction.R 
 	-p query_region_file_with_combined_score \
 	-l query_region_label_file \
@@ -226,7 +226,7 @@ REPTILE_evaluate_prediction.R
 
 ## Example
 Requirements to be coming.
-```
+```bash
 cd example/
 sh run_example.sh > log 2> err
 ```
