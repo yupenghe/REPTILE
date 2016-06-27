@@ -216,7 +216,7 @@ For genome-wide prediction, it is recommend to use sliding genomic windows as qu
 The area under the receiver operating characteristic curve (AUROC), area under the precision-recall
 curve (AUPR) and other metrics will be calculated for users to evaluate the prediction accuracy.
 ```bash
-REPTILE_evaluate_prediction.R 
+REPTILE_evaluate_prediction.R \
 	-p query_region_file_with_combined_score \
 	-l query_region_label_file \
 	-s target_sample
