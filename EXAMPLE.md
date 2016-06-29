@@ -9,7 +9,7 @@ and base-resolution DNA methylation profiles.
 Please contact [Yupeng He](mailto:yupeng.he.bioinfo@gmail.com) for for feedbacks, questions or bugs.
 
 
-## Overview
+## OVERVIEW
 The document includes an example of using REPTILE to predict enhancers in mouse tissues. 
 This example is based on the exact dataset used in the REPTILE manuscript. First, REPTILE
 will be run to learn an enhancer model based on the data in mouse embryonic stem cells (mESCs).
@@ -36,7 +36,7 @@ In addition, the dataset contains 40,000 genomic regions for training REPTILE an
 to evaluation its prediction accurary. Differetially methylated regions (DMRs), which are needed to improve the resolution of REPTILE predictions, were called by comparing the DNA methylation profile of all 9 samples.
 
 
-## Requirements
+## REQUIREMENTS
 It is recommended to run this example in a computer cluster (server) because of the runtime and the requirement for memory.
 Finishing the entire example requires minimum 6 Gb memory (single CPU) and 60 Gb space on the hard drive. Although
 6 Gb memory is enough, to achieve the memory requirement requires only one CPU to use and the runtime will be >20 hours.
@@ -52,7 +52,7 @@ sh run_example.sh > log 2> err
 ```
 Otherwise, you will need to change the value assigned to `num_procs` in `run_example.sh` to reduce the need of memory before running the script. 
 
-## A simple example
+## A SIMPLE EXAMPLE
 A simple example is also provided. 1 Gb hard drive space and 1 Gb memory are needed to run it.
 ```bash
 cd simple_example/
@@ -63,8 +63,8 @@ Compared with the complete example, the simple example includes only the data on
 However, the output is less meaningful since only a subset of data is used.
 
 
-## Step by Step
-### Download example data
+## STEP BY STEP
+#### Download example data
 Create a folder to run the example.
 ```bash
 mkdir REPTILE_example/
@@ -87,7 +87,7 @@ rm REPTILE_simple_example_data.tar
 ```
 Other steps are the same.
 
-### Description of example data
+#### Description of example data
 In the newly created `REPTILE_example/` folder, you should see the below files/folders.
 * `data/bw/` is folder contains the bigWig files of all epigenetic marks of all nine samples
 * `data/data_info_mESC_E11_5.tsv` is the data info file indicating the samples and marks involved as well as the corresponding bigWig files.
@@ -98,7 +98,7 @@ In the newly created `REPTILE_example/` folder, you should see the below files/f
 * `data/training_data/mESC_region_for_train_label.tsv` and `data/test_data/vista_enhancer_state.tsv` are the label files for regions contained in the two files above. 
 
 
-### Training REPTILE
+#### Training REPTILE
 In this step, we train REPTILE on data of mESCs. First, we preprocess the training data using 8 CPUs.
 ```bash
 REPTILE_preprocess.py \
@@ -123,7 +123,7 @@ REPTILE_train.R \
 The parameters of the enhancer model are stored in the output file `tmp/REPTILE_model.reptile`.
 
 
-### Predict the enhancer activity of VISTA elements
+#### Predict the enhancer activity of VISTA elements
 With the trained enhancer model, we then apply REPTILE to predict the enhancer activity in test dataset, 
 which contain 545 elements from VISTA enhancer browser. Simiarly, we first preprocess the test data.
 ```bash
@@ -170,7 +170,7 @@ E11_5_HT 0.8351515 0.5800887 4 8 17
 ```
 AUROC is short for The area under the receiver operating characteristic curve, which AUPR is short for area under the precision-recall curve. They are two metrics of prediction accuracy. "top5", "top10" and "top20" are the percentage of true positives in the top 5, 10 and 20 predictions respectively.
 
-### Generate putative enhancers across genome
+#### Generate putative enhancers across genome
 In the last part of the example, we use REPTILE to generate genome-wide enhancer predictions (calls). We first geenrate
 2kb sliding windows across the entire mouse genome using bedtools. Then, preprocessing is conducted to get the epigenomic
 signatures of the sliding windows and DMRs. Note that `-g` option is used. 
