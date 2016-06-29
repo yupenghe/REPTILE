@@ -40,7 +40,7 @@ ${path_to_reptile}/REPTILE_preprocess.py ${data_info_file} ${test_region} tmp/te
 echo "Done!"
 ## Prediction & Evaluation
 echo -n " - Generating enhancer score for:"
-for sample in E11_5_FB E11_5_MB E11_5_HB E11_5_HT E11_5_LM E11_5_NT
+for sample in E11_5_HT
 do
     echo -n " ${sample}"
     ## Generating enhancer scores
@@ -48,7 +48,7 @@ do
 done
 echo -e "\nEvaluation results:"
 echo -e "  Sample AUROC AUPR top5 top10 top20"
-for sample in E11_5_FB E11_5_MB E11_5_HB E11_5_HT E11_5_LM E11_5_NT
+for sample in E11_5_HT
 do
     ## Evaluation
     echo -e "  ${sample}" $(${path_to_reptile}/REPTILE_evaluate_prediction.R -p results/${sample}_pred.D.bed -s ${sample} -l ${test_label})
@@ -69,7 +69,7 @@ ${path_to_reptile}/REPTILE_preprocess.py ${data_info_file} ${sliding_windows} tm
 echo "Done!"
 ## Prediction
 echo -n " - Generating genome-wide prediction for:"
-for sample in E11_5_FB E11_5_MB E11_5_HB E11_5_HT E11_5_LM E11_5_NT
+for sample in E11_5_HT
 do
     echo -n " ${sample}"
     ## Generating enhancer scores
