@@ -8,7 +8,7 @@ and base-resolution DNA methylation profiles.
 
 Please contact [Yupeng He](mailto:yupeng.he.bioinfo@gmail.com) for for feedbacks, questions or bugs.
 
-## Table of Contents
+## TABLE OF CONTENTS
 * [Requirement](#requirement)
 * [Installation](#installation)
 * [Uninstallation](#uninstallation)
@@ -16,9 +16,10 @@ Please contact [Yupeng He](mailto:yupeng.he.bioinfo@gmail.com) for for feedbacks
 * [REPTILE Overview](#reptile-overview)
 * [Use REPTILE](#use-reptile)
 * [Example](#example)
+* [File format](#file-format))
 
 
-## Requirement
+## REQUIREMENT
 
 #### R
 REPTILE requires R (>= 3.2.2) and it is available in [R website](https://www.r-project.org/).
@@ -103,7 +104,7 @@ may want to remove the REPTILE folder and related files to fully clean up.
 R CMD UNINSTALL REPTILE
 ```
 
-## Test REPTILE
+## TEST REPTILE
 Below command can be used to test whether REPTILE is correctly installed and all requirements
 are met. 
 ```bash
@@ -112,7 +113,7 @@ cd REPTILE/test
 ```
 
 
-## REPTILE overview
+## REPTILE OVERVIEW
 #### Key concepts
 REPTILE is a tool to identify enhancers by epigenomic data (DNA methylation and histone modifications).
 There two key concepts in REPTILE, "query region" and "DMR":
@@ -131,7 +132,7 @@ The workflow of REPTILE pipeline:
 
 Check [File format](#file-format) section for details of each file.
 
-## Use REPTILE
+## USE REPTILE
 As shown in the [REPTILE workflow](#reptile-workflow), REPTILE pipeline can be used to 1) learn
 enhancer models from the epigenomic signature of known enhancers and negative sequences and 2) 
 then generate enhancer prediction based on the model. The pipeline is composed by five executable
@@ -220,7 +221,7 @@ REPTILE_evaluate_prediction.R
 `target_sample` is the sample in which enhancer scores are calculated.
 `REPTILE_evaluate_prediction.R -h` to get help information.
 
-## Example
+## EXAMPLE
 Please see [EXAMPLE.md](https://github.com/yupenghe/REPTILE/blob/master/EXAMPLE.md) for details.
 The simple example can be run with code below. 1 Gb hard drive space and 1 Gb memory are needed to run it.
 ```bash
@@ -236,7 +237,7 @@ sh run_example.sh > log 2> err
 ```
 
 
-## File format
+## FILE FORMAT
 The formats of files invovled in the REPTILE workflow are:
 
 ![](https://raw.githubusercontent.com/yupenghe/misc/master/REPTILE/file_format.png "File format")
