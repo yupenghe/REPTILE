@@ -128,11 +128,8 @@ The currently known enhancers (~2kb) are generally much larger than the binding 
 The workflow of REPTILE pipeline:
 
 ![](https://raw.githubusercontent.com/yupenghe/misc/master/REPTILE/workflow.png "REPTILE workflow")
-	
-### File format
-The formats of files in REPTILE workflow are:
 
-![](https://raw.githubusercontent.com/yupenghe/misc/master/REPTILE/file_format.png "File format")
+Check [File format](#file-format) section for details of each file.
 
 ## Use REPTILE
 As shown in the [REPTILE workflow](#reptile-workflow), REPTILE pipeline can be used to 1) learn
@@ -142,8 +139,7 @@ scripts (in `bin/`). `REPTILE_train.R` and `REPTILE_compute_score.R` are the key
 generate prediction, respectively. The inputs for these scripts can be readily generated using 
 `REPTILE_preprocess.py`. `REPTILE_call_enhancer.py` is used to generate enhancer calls based on the
 results (enhancer scores) from `REPTILE_compute_score.R`. The enhancer predictions can be evaluated 
-using the last script, `REPTILE_evaluate_prediction.R`. The detailed usage information of each
-executable script can be found in the [USAGE.md](https://github.com/yupenghe/REPTILE/blob/master/USAGE.md) document.
+using the last script, `REPTILE_evaluate_prediction.R`. 
 
 The whole RPETILE pipeline can be divided in the several steps. First, input files (in commonly used file formats
 of genomic data) are preprocessed to generate the inputs for following training and prediction. Next, in training
@@ -225,8 +221,22 @@ REPTILE_evaluate_prediction.R
 `REPTILE_evaluate_prediction.R -h` to get help information.
 
 ## Example
-Requirements to be coming.
+Please see [EXAMPLE.md](https://github.com/yupenghe/REPTILE/blob/master/EXAMPLE.md) for details.
+The simple example can be run with code below. 1 Gb hard drive space and 1 Gb memory are needed to run it.
+```bash
+cd simple_example/
+sh run_simple_example.sh > log 2> err
+```
+
+Code below can be used to run the complete example. Please be aware that running the complete example requires
+large memory and check with the requirement first.
 ```bash
 cd example/
 sh run_example.sh > log 2> err
 ```
+
+
+## File format
+The formats of files invovled in the REPTILE workflow are:
+
+![](https://raw.githubusercontent.com/yupenghe/misc/master/REPTILE/file_format.png "File format")

@@ -8,7 +8,6 @@ and base-resolution DNA methylation profiles.
 
 Please contact [Yupeng He](mailto:yupeng.he.bioinfo@gmail.com) for for feedbacks, questions or bugs.
 
-Please cite "Yupeng He, David U. Gorkin, Joseph R. Nery, Rosa Castanon, Ah Young Lee, Yin Shen, Axel Visel, Len A. Pennacchio, Bing Ren, Joseph R. Ecker, REPTILE: Regulatory Element Prediction based on TIssue-specific Local Epigenetic marks, In preparation".
 
 ## Overview
 The document includes an example of using REPTILE to predict enhancers in mouse tissues. 
@@ -18,7 +17,8 @@ In the training dataset, EP300 binding sites are used as representative active e
 the promoters regions along with random genomic intervals are used as inative instances. In the
 next step, the enhancer model learned in mESCs will be applied to predict the enhancer activity of
 545 genomic elements in the heart tissue from mouse embryo at E11.5 developmental stages (E11_5_HT).
-These elements have been experimentally validated using transgenic reporter assay. We will compare
+These elements are from [VISTA enhancer browser](http://enhancer.lbl.gov/) and
+were experimentally validated using transgenic reporter assay. We will compare
 the predictions with experimental results to evaluate the accuracy of REPTILE. Lastly, we will use
 REPTILE to generate enhancer predictions across the genome.
 
@@ -45,17 +45,26 @@ Each processor will take around 6 Gb memory. If the total memory requirement can
 to reduce the number of processors to use by change the value passed to the `-p` option when running `REPTILE_compute_score.R`
 and `REPTILE_preprocess.py`. 
 
-If the server meets the requirement of 48 Gb memory (6 Gb x 8 CPU to use) and 60 Gb space, you can run the example by simply
-doing:
+If the server meets the requirement of 48 Gb memory (6 Gb x 8 CPU to use) and 60 Gb space, you can run the example (which will take ~3h) by simply doing:
 ```bash
 cd example/
 sh run_example.sh > log 2> err
 ```
 Otherwise, you will need to change the value assigned to `num_procs` in `run_example.sh` to reduce the need of memory before running the script. 
 
-Below is the step by step guide of the example.
+## A simple example
+A simple example is also provided. 1 Gb hard drive space and 1 Gb memory are needed to run it.
+```bash
+cd simple_example/
+sh run_simple_example.sh > log 2> err
+```
+It takes around 20min using single CPU. You may change the `num_procs` value in `run_simple_example.sh` script to run it with multiple CPUs.
+Compared with the complete example, the simple example includes only the data on chromosome 19. 
+However, the output is less meaningful since only a subset of data is used.
 
-## Download example data
+
+## Step by Step
+### Download example data
 Create a folder to run the example.
 ```bash
 mkdir REPTILE_example/
@@ -63,14 +72,22 @@ cd REPTILE_example/
 mkdir -p tmp/ results/
 ```
 
-Download and unzip the data needed for running the example.
+Download and unzip the data needed for running the complete example.
 ```bash
 wget neomorph.salk.edu/yupeng/share/REPTILE_example_data.tar
 tar xf REPTILE_example_data.tar
 rm REPTILE_example_data.tar
 ```
 
-## Description of example data
+For the simple example, the code changes to:
+```bash
+wget neomorph.salk.edu/yupeng/share/REPTILE_simple_example_data.tar
+tar xf REPTILE_simple_example_data.tar
+rm REPTILE_simple_example_data.tar
+```
+Other steps are the same.
+
+### Description of example data
 In the newly created `REPTILE_example/` folder, you should see the below files/folders.
 * `data/bw/` is folder contains the bigWig files of all epigenetic marks of all nine samples
 * `data/data_info_mESC_E11_5.tsv` is the data info file indicating the samples and marks involved as well as the corresponding bigWig files.
@@ -81,7 +98,8 @@ In the newly created `REPTILE_example/` folder, you should see the below files/f
 * `data/training_data/mESC_region_for_train_label.tsv` and `data/test_data/vista_enhancer_state.tsv` are the label files for regions contained in the two files above. 
 
 
-## Model training
+### Training REPTILE
+In this step, we train REPTILE on data of mESCs. First, we preprocess the training data using 8 CPUs.
 ```bash
 REPTILE_preprocess.py \
 	data/data_info_mESC_E11_5.tsv \
@@ -90,7 +108,9 @@ REPTILE_preprocess.py \
 	-d data/DMR_CG_mESC_E11_5_ext150.bed \
 	-p 8
 ```
+The parameter, `tmp/training_region`, specifies the prefix of output files. Two output files will be generated, `tmp/training_region.region_with_epimark.tsv` and `tmp/training_region.DMR_with_epimark.tsv`, containing the epigenomic signatures of query regions and DMRs, respectively. 
 
+Then, `REPTILE_train.R` is run to learn an enhancer model from the training dataset.
 ```bash
 REPTILE_train.R \
 	-i data/data_info_mESC_E11_5.tsv \
@@ -100,9 +120,12 @@ REPTILE_train.R \
 	-s mESC \
 	-o tmp/REPTILE_model
 ```
+The parameters of the enhancer model are stored in the output file `tmp/REPTILE_model.reptile`.
 
-## Predict the enhancer activity of VISTA elements
 
+### Predict the enhancer activity of VISTA elements
+With the trained enhancer model, we then apply REPTILE to predict the enhancer activity in test dataset, 
+which contain 545 elements from VISTA enhancer browser. Simiarly, we first preprocess the test data.
 ```bash
 REPTILE_preprocess.py \
 	data/data_info_mESC_E11_5.tsv \
@@ -111,6 +134,8 @@ REPTILE_preprocess.py \
 	-d data/DMR_CG_mESC_E11_5_ext150.bed
 ```
 
+Next, REPTILE calculates enhancer confidence score for each query region and DMR based on the enhancer model.
+Note that `-w` option is used in order to get the combined score of each query region (see below).
 ```bash
 ## Generating enhancer scores
 REPTILE_compute_score.R \
@@ -121,7 +146,14 @@ REPTILE_compute_score.R \
 	-s E11_5_HT \
 	-o results/E11_5_HT_pred \
 	-w
-		
+```
+Three output files will be in `results/`. 
+* `E11_5_HT_pred.D.bed`: combined score of query reigons. For each query region, combined score is  defined as the maximum of score of the query region and the DMRs overlapping with it.
+* `E11_5_HT_pred.R.bed`: score of query regions
+* `E11_5_HT_pred.DMR.bed`: score of DMRs
+
+Last, we evaluate the prediction result by comparing it with experimental data (`data/test_data/vista_enhancer_state.tsv`).
+```bash
 ## Evaluate the prediction results
 echo -n "E11_5_HT "
 echo \
@@ -131,12 +163,17 @@ echo \
 	-l data/test_data/vista_enhancer_state.tsv`
 done
 ```
+If the code executes correctly, the result should be like:
+```
+Sample AUROC AUPR top5 top10 top20
+E11_5_HT 0.8351515 0.5800887 4 8 17
+```
+AUROC is short for The area under the receiver operating characteristic curve, which AUPR is short for area under the precision-recall curve. They are two metrics of prediction accuracy. "top5", "top10" and "top20" are the percentage of true positives in the top 5, 10 and 20 predictions respectively.
 
-`results/results/E11_5_HT_pred.D.bed`
-
-
-## Generate putative enhancers across genome
-
+### Generate putative enhancers across genome
+In the last part of the example, we use REPTILE to generate genome-wide enhancer predictions (calls). We first geenrate
+2kb sliding windows across the entire mouse genome using bedtools. Then, preprocessing is conducted to get the epigenomic
+signatures of the sliding windows and DMRs. Note that `-g` option is used. 
 ```bash
 ## Generate sliding windows across mouse genome
 bedtools makewindows -w 2000 -s 100 -g data/mm10_chrLen.tsv |awk '{print $_"\tbin_"i++}' > tmp/mm10_w2kb_s100bp.bed
@@ -152,6 +189,7 @@ REPTILE_preprocess.py \
 	-g
 ```
 
+Next, enhancer score is calculated for each query region and each DMR.
 ```bash
 ## Generating enhancer scores
 REPTILE_compute_score.R \
@@ -163,7 +201,10 @@ REPTILE_compute_score.R \
 	-o tmp/E11_5_HT_pred \
 	-p 8 \
 	-n 12
-    
+```
+
+Based on the score of query regions and DMRs, REPTILE identifies putative elements in the genome given score cutoff, 0.5..
+```bash
 ## Call putative enhancers based on the scores
 REPTILE_call_enhancer.py \
 	tmp/E11_5_HT_pred.R.bed \
@@ -172,9 +213,5 @@ REPTILE_call_enhancer.py \
 	-o results/enhancer_E11_5_HT.bed
 done
 ```
+The output file `results/enhancer_E11_5_HT.bed` stores the enhancer predictions.
 
-`results/enhancer_E11_5_HT.bed`
-
-
-## More about this example
-`E11_5_HT` can be 
