@@ -16,7 +16,7 @@ Please contact [Yupeng He](mailto:yupeng.he.bioinfo@gmail.com) for for feedbacks
 * [REPTILE Overview](#reptile-overview)
 * [Use REPTILE](#use-reptile)
 * [Example](#example)
-* [File format](#file-format))
+* [File format](#file-format)
 
 
 ## REQUIREMENT
