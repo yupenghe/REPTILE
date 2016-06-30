@@ -203,7 +203,7 @@ REPTILE_compute_score.R \
 	-n 12
 ```
 
-Based on the score of query regions and DMRs, REPTILE identifies putative elements in the genome given score cutoff, 0.5..
+Based on the score of query regions and DMRs, REPTILE identifies putative elements in the genome given score cutoff, 0.5.
 ```bash
 ## Call putative enhancers based on the scores
 REPTILE_call_enhancer.py \
