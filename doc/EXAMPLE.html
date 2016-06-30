@@ -97,14 +97,14 @@ to evaluation its prediction accurary. Differetially methylated regions (DMRs), 
 <a id="user-content-requirements" class="anchor" href="#requirements" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>REQUIREMENTS</h2>
 
 <p>It is recommended to run this example in a computer cluster (server) because of the runtime and the requirement for memory.
-Finishing the entire example requires minimum 6 Gb memory (single CPU) and 60 Gb space on the hard drive. Although
-6 Gb memory is enough, to achieve the memory requirement requires only one CPU to use and the runtime will be &gt;20 hours.
-Roughly, the peak of memory usage is the product of number of processors (<code>8</code> in the code below) and 6 Gb. 
-Each processor will take around 6 Gb memory. If the total memory requirement cannot be met, it is better
+Finishing the entire example requires minimum 8 Gb memory (single CPU) and 60 Gb space on the hard drive. Although
+8 Gb memory is enough, to achieve the memory requirement requires only one CPU to use and the runtime will be &gt;20 hours.
+Roughly, the peak of memory usage is the product of number of processors (<code>8</code> in the code below) and 8 Gb. 
+Each processor will take around 8 Gb memory. If the total memory requirement cannot be met, it is better
 to reduce the number of processors to use by change the value passed to the <code>-p</code> option when running <code>REPTILE_compute_score.R</code>
 and <code>REPTILE_preprocess.py</code>. </p>
 
-<p>If the server meets the requirement of 48 Gb memory (6 Gb x 8 CPU to use) and 60 Gb space, you can run the example (which will take ~3h) by simply doing:</p>
+<p>If the server meets the requirement of 64 Gb memory (8 Gb x 8 CPU to use) and 60 Gb space, you can run the example (which will take ~3h) by simply doing:</p>
 
 <div class="highlight highlight-source-shell"><pre><span class="pl-c1">cd</span> example/
 sh run_example.sh <span class="pl-k">&gt;</span> log <span class="pl-k">2&gt;</span> err</pre></div>
@@ -285,7 +285,7 @@ REPTILE_compute_score.R \
     -p 8 \
     -n 12</pre></div>
 
-<p>Based on the score of query regions and DMRs, REPTILE identifies putative elements in the genome given score cutoff, 0.5..</p>
+<p>Based on the score of query regions and DMRs, REPTILE identifies putative elements in the genome given score cutoff, 0.5.</p>
 
 <div class="highlight highlight-source-shell"><pre><span class="pl-c">## Call putative enhancers based on the scores</span>
 REPTILE_call_enhancer.py \

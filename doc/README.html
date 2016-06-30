@@ -218,6 +218,17 @@ step, REPTILE learns an enhancer model. The model will then be used to calculate
 and DMR in the prediction step. Lastly, enhancer calls will be generated based on these scores. </p>
 
 <h4>
+<a id="user-content-calling-dmrs" class="anchor" href="#calling-dmrs" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Calling DMRs</h4>
+
+<p>DMRs can improve the resolution of REPTILE predictions but DMR calling is not part of REPTILE pipeline.
+Several published methods are available to call DMRs, including 
+<a href="https://bioconductor.org/packages/release/bioc/html/bsseq.html">bsseq</a>, 
+<a href="https://code.google.com/archive/p/moabs/">MOABS</a> and <a href="https://bioconductor.org/packages/release/bioc/html/DSS.html">DSS</a>.
+The DMRs in the example data were called by <a href="https://github.com/yupenghe/methylpy">methypy</a>. It is a python module that is designed to identify DMRs across a large number of cells and tissues, whereas existing methods are better at doing pairwise comparison.</p>
+
+<p>The DMR input is optional and REPTILE still generates good predictions without it. If you want to run REPTILE without DMR input, ignoring <code>-d</code> option when running RPETILE scripts will do.</p>
+
+<h4>
 <a id="user-content-preprocessing" class="anchor" href="#preprocessing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Preprocessing</h4>
 
 <p>The goal of preprocessing step is to generate the files of epigenomic signatures of DMRs
@@ -314,6 +325,11 @@ large memory and check with the requirement first.</p>
 
 <div class="highlight highlight-source-shell"><pre><span class="pl-c1">cd</span> example/
 sh run_example.sh <span class="pl-k">&gt;</span> log <span class="pl-k">2&gt;</span> err</pre></div>
+
+<h2>
+<a id="user-content-pretrained-model" class="anchor" href="#pretrained-model" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PRETRAINED MODEL</h2>
+
+<p>Please see <a href="https://github.com/yupenghe/REPTILE/blob/master/PRETRAINED_MODEL.md">PRETRAINED_MODEL.md</a> for details.</p>
 
 <h2>
 <a id="user-content-file-format" class="anchor" href="#file-format" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>FILE FORMAT</h2>

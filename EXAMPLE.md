@@ -38,14 +38,14 @@ to evaluation its prediction accurary. Differetially methylated regions (DMRs), 
 
 ## REQUIREMENTS
 It is recommended to run this example in a computer cluster (server) because of the runtime and the requirement for memory.
-Finishing the entire example requires minimum 6 Gb memory (single CPU) and 60 Gb space on the hard drive. Although
-6 Gb memory is enough, to achieve the memory requirement requires only one CPU to use and the runtime will be >20 hours.
-Roughly, the peak of memory usage is the product of number of processors (`8` in the code below) and 6 Gb. 
-Each processor will take around 6 Gb memory. If the total memory requirement cannot be met, it is better
+Finishing the entire example requires minimum 8 Gb memory (single CPU) and 60 Gb space on the hard drive. Although
+8 Gb memory is enough, to achieve the memory requirement requires only one CPU to use and the runtime will be >20 hours.
+Roughly, the peak of memory usage is the product of number of processors (`8` in the code below) and 8 Gb. 
+Each processor will take around 8 Gb memory. If the total memory requirement cannot be met, it is better
 to reduce the number of processors to use by change the value passed to the `-p` option when running `REPTILE_compute_score.R`
 and `REPTILE_preprocess.py`. 
 
-If the server meets the requirement of 48 Gb memory (6 Gb x 8 CPU to use) and 60 Gb space, you can run the example (which will take ~3h) by simply doing:
+If the server meets the requirement of 64 Gb memory (8 Gb x 8 CPU to use) and 60 Gb space, you can run the example (which will take ~3h) by simply doing:
 ```bash
 cd example/
 sh run_example.sh > log 2> err

@@ -147,6 +147,16 @@ of genomic data) are preprocessed to generate the inputs for following training 
 step, REPTILE learns an enhancer model. The model will then be used to calculate enhancer scores for each query region
 and DMR in the prediction step. Lastly, enhancer calls will be generated based on these scores. 
 
+#### Calling DMRs
+DMRs can improve the resolution of REPTILE predictions but DMR calling is not part of REPTILE pipeline.
+Several published methods are available to call DMRs, including 
+[bsseq](https://bioconductor.org/packages/release/bioc/html/bsseq.html), 
+[MOABS](https://code.google.com/archive/p/moabs/) and [DSS](https://bioconductor.org/packages/release/bioc/html/DSS.html).
+The DMRs in the example data were called by [methypy](https://github.com/yupenghe/methylpy). It is a python module that is designed to identify DMRs across a large number of cells and tissues, whereas existing methods are better at doing pairwise comparison.
+
+The DMR input is optional and REPTILE still generates good predictions without it. If you want to run REPTILE without DMR input, ignoring `-d` option when running RPETILE scripts will do.
+
+
 #### Preprocessing
 The goal of preprocessing step is to generate the files of epigenomic signatures of DMRs
 and query regions. These files are inputs for follow-up training and prediction steps.
@@ -236,6 +246,8 @@ cd example/
 sh run_example.sh > log 2> err
 ```
 
+## PRETRAINED MODEL
+Please see [PRETRAINED_MODEL.md](https://github.com/yupenghe/REPTILE/blob/master/PRETRAINED_MODEL.md) for details.
 
 ## FILE FORMAT
 The formats of files invovled in the REPTILE workflow are:
