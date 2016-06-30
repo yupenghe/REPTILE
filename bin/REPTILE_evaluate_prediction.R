@@ -121,6 +121,6 @@ cat(AUROC,AUPR,
     sum(annotations[s$ix[1:5]] == 1),
     sum(annotations[s$ix[1:10]] == 1),
     sum(annotations[s$ix[1:20]] == 1),
-    "\n",
+    fill=TRUE,
     sep="\t")
 
