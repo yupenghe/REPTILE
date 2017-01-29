@@ -8,6 +8,8 @@ and base-resolution DNA methylation profiles.
 
 Please contact [Yupeng He](mailto:yupeng.he.bioinfo@gmail.com) for for feedbacks, questions or bugs.
 
+Supplemental Data for REPTILE manuscript can be downloaded from [here](http://neomorph.salk.edu/yupeng/share/REPTILE_Supplemental_Data.tar.gz).
+
 ## TABLE OF CONTENTS
 * [Requirement](#requirement)
 * [Installation](#installation)
